@@ -1,0 +1,3 @@
+[submodule "dbus"]
+	path = dbus
+	url = git@github.com:balena-io-playground/dbus

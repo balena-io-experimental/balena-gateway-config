@@ -1,0 +1,18 @@
+version: '2'
+services:
+  gateway-config:
+    build: ./gateway-config
+    labels:
+      io.balena.features.dbus: '1'
+    restart: always
+    privileged: true
+    environment:
+      - 'DBUS_SESSION_BUS_ADDRESS=tcp:host=dbus,port=55884'
+      - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
+    depends_on:
+      - dbus
+  dbus:
+    build: ./dbus
+    restart: always
+    privileged: true
+
