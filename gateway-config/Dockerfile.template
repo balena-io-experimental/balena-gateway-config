@@ -1,0 +1,18 @@
+FROM balenalib/%%BALENA_ARCH%%-ubuntu:focal-20210506 as build
+ARG GATEWAY_CONFIG_URL=https://github.com/helium/gateway-config
+
+RUN apt-get update \
+	&& DEBIAN_FRONTEND=noninteractive apt-get install -y \
+		build-essential erlang git cmake libdbus-1-dev
+RUN git clone $GATEWAY_CONFIG_URL
+RUN make -C gateway-config release
+
+FROM balenalib/%%BALENA_ARCH%%-ubuntu:focal-20210506 as run
+RUN apt-get update \
+	&& DEBIAN_FRONTEND=noninteractive apt-get install -y connman erlang
+WORKDIR /opt
+COPY nm-manage-iface.sh .
+COPY --from=build gateway-config/_build/prod/rel .
+RUN mkdir -p gateway_config/log
+CMD ./nm-manage-iface.sh wlan0 false \
+	&& gateway_config/bin/gateway_config console
