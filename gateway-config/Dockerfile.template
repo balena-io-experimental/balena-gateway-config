@@ -9,10 +9,8 @@ RUN make -C gateway-config release
 
 FROM balenalib/%%BALENA_ARCH%%-ubuntu:focal-20210506 as run
 RUN apt-get update \
-	&& DEBIAN_FRONTEND=noninteractive apt-get install -y connman erlang
+	&& DEBIAN_FRONTEND=noninteractive apt-get install -y erlang
 WORKDIR /opt
-COPY nm-manage-iface.sh .
 COPY --from=build gateway-config/_build/prod/rel .
-RUN mkdir -p gateway_config/log
-CMD ./nm-manage-iface.sh wlan0 false \
-	&& gateway_config/bin/gateway_config console
+COPY entry.sh .
+ENTRYPOINT ["/bin/bash", "entry.sh"]

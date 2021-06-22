@@ -1,0 +1,11 @@
+FROM balenalib/%%BALENA_ARCH%%-alpine
+RUN apk --update add dbus
+COPY nm-manage-iface.sh .
+CMD ./nm-manage-iface.sh wlan0 false \
+	&& dbus-send --system \
+		     --type=method_call \
+		     --dest=org.freedesktop.systemd1 \
+		     /org/freedesktop/systemd1 \
+		     org.freedesktop.systemd1.Manager.StopUnit \
+		     string:bluetooth.service string:replace \
+	&& balena-idle
