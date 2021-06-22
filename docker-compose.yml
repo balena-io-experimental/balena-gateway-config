@@ -31,8 +31,9 @@ services:
     build: ./connman
     restart: always
     privileged: true
+    network_mode: host
     environment:
-      - 'DBUS_SYSTEM_BUS_ADDRESS=tcp:host=dbus,port=55884'
+      - 'DBUS_SYSTEM_BUS_ADDRESS=tcp:host=localhost,port=55884'
     depends_on:
       - dbus
       - iface-setup
