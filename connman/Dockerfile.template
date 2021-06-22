@@ -1,5 +1,5 @@
 FROM balenalib/%%BALENA_ARCH%%-alpine
 
-RUN apk add --update --no-cache connman
+RUN apk add --update --no-cache connman wpa_supplicant
 COPY entry.sh .
 CMD ["/bin/sh", "entry.sh"]

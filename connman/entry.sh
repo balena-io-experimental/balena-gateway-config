@@ -19,4 +19,6 @@ function wait_for_dbus() {
 }
 
 
-wait_for_dbus && connmand -n -i wlan0
+wait_for_dbus \
+	&& wpa_supplicant -u -B \
+	&& connmand -n -i wlan0 -d
