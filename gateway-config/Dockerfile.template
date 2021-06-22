@@ -9,7 +9,8 @@ RUN make -C gateway-config release
 
 FROM balenalib/%%BALENA_ARCH%%-ubuntu:focal-20210506 as run
 RUN apt-get update \
-	&& DEBIAN_FRONTEND=noninteractive apt-get install -y erlang-base
+	&& DEBIAN_FRONTEND=noninteractive apt-get install -y erlang-base \
+							     dbus
 WORKDIR /opt
 COPY --from=build gateway-config/_build/prod/rel .
 COPY entry.sh .
