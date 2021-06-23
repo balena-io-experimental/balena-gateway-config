@@ -1,6 +1,6 @@
 FROM balenalib/%%BALENA_ARCH%%-alpine
 RUN apk --update add dbus
-COPY nm-manage-iface.sh .
+COPY *.sh ./
 CMD ./nm-manage-iface.sh wlan0 false \
 	&& dbus-send --system \
 		     --type=method_call \
