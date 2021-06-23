@@ -18,6 +18,6 @@ function wait_for_dbus() {
 	echo "DBus is now accepting connections"
 }
 
-rfkill unblock bluetooth \
-	&& wait_for_dbus \
+rfkill block bluetooth && rfkill unblock bluetooth
+wait_for_dbus \
 	&& /usr/lib/bluetooth/bluetoothd  --nodetach
