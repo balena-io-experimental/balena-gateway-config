@@ -13,5 +13,5 @@ RUN apt-get update \
 							     dbus
 WORKDIR /opt
 COPY --from=build gateway-config/_build/prod/rel .
-COPY entry.sh .
+COPY *.sh ./
 ENTRYPOINT ["/bin/bash", "entry.sh"]

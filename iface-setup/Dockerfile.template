@@ -1,6 +1,0 @@
-FROM balenalib/%%BALENA_ARCH%%-alpine
-RUN apk --update add dbus
-COPY *.sh ./
-CMD ./nm-manage-iface.sh wlan0 false \
-	&& ./systemd-stop-unit.sh bluetooth.service \
-	&& balena-idle

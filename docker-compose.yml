@@ -2,14 +2,6 @@ version: '2'
 volumes:
   dbus-config:
 services:
-  iface-setup:
-    build: ./iface-setup
-    labels:
-      io.balena.features.dbus: '1'
-    restart: on-failure
-    privileged: true
-    environment:
-      - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
   dbus:
     build: ./dbus
     restart: always
@@ -27,6 +19,8 @@ services:
       - NET_ADMIN
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=tcp:host=localhost,port=55884'
+    labels:
+      io.balena.features.dbus: '1'
     depends_on:
       - dbus
   connman:
@@ -36,13 +30,13 @@ services:
     network_mode: host
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=tcp:host=localhost,port=55884'
+    labels:
+      io.balena.features.dbus: '1'
     depends_on:
       - dbus
-      - iface-setup
   gateway-config:
     build: ./gateway-config
     restart: always
-    privileged: true
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=tcp:host=dbus,port=55884'
       # The system bus forbids a lot of actions by default, use the session
