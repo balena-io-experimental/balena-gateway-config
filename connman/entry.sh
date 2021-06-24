@@ -9,4 +9,4 @@ DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket \
 
 wait_for_dbus \
 	&& wpa_supplicant -u -B \
-	&& connmand -n -i wlan0 -d
+	&& connmand -n -i wlan0
