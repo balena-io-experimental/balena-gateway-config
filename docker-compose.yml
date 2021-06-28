@@ -4,7 +4,7 @@ services:
     build: ./dbus
     restart: always
     ports:
-      - "55884:55884"
+      - "55884:55884" # expose bus to containers with network_mode: host
     environment:
       DBUS_CONFIG: session.conf # allow owning anything without explicit policies
   bluez:
@@ -18,7 +18,7 @@ services:
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=tcp:host=localhost,port=55884'
     labels:
-      io.balena.features.dbus: '1'
+      io.balena.features.dbus: '1' # required for stopping host OS bluetooth.service
     depends_on:
       - dbus-system
   connman:
@@ -30,7 +30,7 @@ services:
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=tcp:host=localhost,port=55884'
     labels:
-      io.balena.features.dbus: '1'
+      io.balena.features.dbus: '1' # required for unmanmaging interfaces from NetworkManager
     depends_on:
       - dbus-system
   gateway-config:
