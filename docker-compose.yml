@@ -1,6 +1,4 @@
 version: '2'
-volumes:
-  dbus-config:
 services:
   dbus:
     build: ./dbus
@@ -8,8 +6,6 @@ services:
     privileged: true
     ports:
       - "55884:55884"
-    volumes:
-      - 'dbus-config:/etc/dbus-1/system.d/'
   bluez:
     build: ./bluez
     restart: always
@@ -43,8 +39,6 @@ services:
       # bus config instead
       #- 'DBUS_SESSION_BUS_ADDRESS=tcp:host=dbus,port=55884'
       #- 'DBUS_SYSTEM_BUS_ADDRESS=tcp:host=dbus,port=55887'
-    volumes:
-      - 'dbus-config:/mnt/dbus-config'
     depends_on:
       - dbus
       - bluez
