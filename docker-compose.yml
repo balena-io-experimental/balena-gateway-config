@@ -3,7 +3,6 @@ services:
   dbus-system:
     build: ./dbus
     restart: always
-    privileged: true
     ports:
       - "55884:55884"
     environment:
@@ -11,8 +10,9 @@ services:
   bluez:
     build: ./bluez
     restart: always
-    privileged: true
     network_mode: host
+    devices:
+      - "/dev/rfkill:/dev/rfkill" # required for `rfkill unblock`
     cap_add:
       - NET_ADMIN
     environment:
@@ -24,8 +24,9 @@ services:
   connman:
     build: ./connman
     restart: always
-    privileged: true
     network_mode: host
+    cap_add:
+      - NET_ADMIN # required for managing network interfaces
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=tcp:host=localhost,port=55884'
     labels:
